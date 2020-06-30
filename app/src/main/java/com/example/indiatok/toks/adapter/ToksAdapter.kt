@@ -2,6 +2,7 @@ package com.example.indiatok.toks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.indiatok.R
@@ -17,9 +18,20 @@ class ToksAdapter(
         val completeView = LayoutInflater.from(parent.context)
             .inflate(R.layout.cell_tok, parent, false)
 
-        val playerView = completeView as YouTubePlayerView
-        lifecycle.addObserver(playerView)
-        return ToksHolder(playerView)
+        val parentView = completeView as ViewGroup
+        var playerView: YouTubePlayerView? = null
+
+        for(child in parentView.children) {
+            if(child is YouTubePlayerView) {
+                playerView = child
+            }
+        }
+
+        playerView?.let {
+            lifecycle.addObserver(it)
+        }
+
+        return ToksHolder(completeView)
     }
 
     override fun getItemCount(): Int {

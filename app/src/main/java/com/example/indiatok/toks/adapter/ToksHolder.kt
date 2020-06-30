@@ -1,5 +1,8 @@
 package com.example.indiatok.toks.adapter
 
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -7,7 +10,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
-class ToksHolder(playerView: YouTubePlayerView): RecyclerView.ViewHolder(playerView) {
+class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private var tokPosition: Int = 0
     private lateinit var currentVideoId: String
@@ -16,7 +19,17 @@ class ToksHolder(playerView: YouTubePlayerView): RecyclerView.ViewHolder(playerV
     private lateinit var tokListener: TokListener
 
     init {
-        playerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        val parentView = itemView as ViewGroup
+
+        var playerView: YouTubePlayerView? = null
+
+        for(child in parentView.children) {
+            if(child is YouTubePlayerView) {
+                playerView = child
+            }
+        }
+
+        playerView?.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youtubePlayer = youTubePlayer
                 youtubePlayer.cueVideo(currentVideoId, 0f)
