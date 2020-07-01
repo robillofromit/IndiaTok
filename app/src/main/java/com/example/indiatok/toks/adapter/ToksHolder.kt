@@ -8,6 +8,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import kotlinx.android.synthetic.main.cell_tok.view.*
 
 
 class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -44,11 +45,14 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                     if(::tokListener.isInitialized)
                         tokListener.onTokEnded(tokPosition)
                 }
+                if(state != PlayerConstants.PlayerState.PLAYING)
+                    itemView.soundTrackNameTv.isSelected = false
             }
         })
     }
 
     fun cueVideo(videoId: String, tokPosition: Int) {
+        itemView.soundTrackNameTv.isSelected = true
         this.tokPosition = tokPosition
         currentVideoId = videoId
         if(!::youtubePlayer.isInitialized) return
