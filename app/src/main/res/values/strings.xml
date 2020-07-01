@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">IndiaTok</string>
+    <string name="made_for_india_n_from_indians">Made for India\nFrom Indians</string>
+    <string name="dummy_user_name">anubhavnirwal</string>
 </resources>
