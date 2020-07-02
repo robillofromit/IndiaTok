@@ -1,4 +1,4 @@
-package com.example.indiatok.toks.adapter
+package com.bharatalk.app.toks.adapter
 
 import android.view.View
 import android.view.ViewGroup

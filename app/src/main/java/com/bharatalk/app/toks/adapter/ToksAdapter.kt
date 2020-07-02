@@ -1,11 +1,11 @@
-package com.example.indiatok.toks.adapter
+package com.bharatalk.app.toks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
-import com.example.indiatok.R
+import com.bharatalk.app.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class ToksAdapter(

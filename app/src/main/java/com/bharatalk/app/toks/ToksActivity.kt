@@ -1,18 +1,16 @@
-package com.example.indiatok.toks
+package com.bharatalk.app.toks
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.indiatok.R
-import com.example.indiatok.base.BaseActivity
-import com.example.indiatok.toks.adapter.ToksAdapter
-import com.example.indiatok.toks.adapter.ToksHolder
+import com.bharatalk.app.R
+import com.bharatalk.app.base.BaseActivity
+import com.bharatalk.app.toks.adapter.ToksAdapter
+import com.bharatalk.app.toks.adapter.ToksHolder
 import kotlinx.android.synthetic.main.activity_toks.*
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener {

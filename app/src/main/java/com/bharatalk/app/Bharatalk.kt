@@ -1,11 +1,11 @@
-package com.example.indiatok
+package com.bharatalk.app
 
 import android.app.Application
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
 
-class IndiaTok: Application() {
+class Bharatalk: Application() {
 
     override fun onCreate() {
         super.onCreate()

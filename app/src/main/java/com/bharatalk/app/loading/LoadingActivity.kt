@@ -1,12 +1,10 @@
-package com.example.indiatok.loading
+package com.bharatalk.app.loading
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.content.ContextCompat
-import com.example.indiatok.R
-import com.example.indiatok.base.BaseActivity
-import com.example.indiatok.toks.ToksActivity
+import com.bharatalk.app.R
+import com.bharatalk.app.base.BaseActivity
+import com.bharatalk.app.toks.ToksActivity
 import java.lang.Exception
 
 class LoadingActivity : BaseActivity() {

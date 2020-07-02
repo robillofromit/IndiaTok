@@ -1,10 +1,8 @@
-package com.example.indiatok.base
+package com.bharatalk.app.base
 
-import android.R
 import android.content.Context
 import android.os.Build
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat

@@ -1,4 +1,4 @@
-package com.example.indiatok
+package com.bharatalk.app
 
 import org.junit.Test
 
