@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "336792785347",
+    "firebase_url": "https://bharatalk.firebaseio.com",
+    "project_id": "bharatalk",
+    "storage_bucket": "bharatalk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336792785347:android:32e4efa700a0f3877d6d76",
+        "android_client_info": {
+          "package_name": "com.bharatalk.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336792785347-4auqi5o9295obbvktm7fssbff6pvrlrk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bharatalk.app",
+            "certificate_hash": "2a6e0744c89137043107d22edb63cac4f601500e"
+          }
+        },
+        {
+          "client_id": "336792785347-a91bi2ej12ph5or9umfjti1mlk5jdnuc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-5VZ1o0EAskqDnSVKafoLmOwegVFwycw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336792785347-a91bi2ej12ph5or9umfjti1mlk5jdnuc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

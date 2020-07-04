@@ -1,4 +1,4 @@
-package com.bharatalk.app.toks
+package com.bharatalk.app.main.toks
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bharatalk.app.R
-import com.bharatalk.app.base.BaseActivity
-import com.bharatalk.app.toks.adapter.ToksAdapter
-import com.bharatalk.app.toks.adapter.ToksHolder
+import com.bharatalk.app.main.base.BaseActivity
+import com.bharatalk.app.main.toks.adapter.ToksAdapter
+import com.bharatalk.app.main.toks.adapter.ToksHolder
 import kotlinx.android.synthetic.main.activity_toks.*
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener {

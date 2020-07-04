@@ -1,6 +1,7 @@
-package com.bharatalk.app
+package com.bharatalk.app.main
 
 import android.app.Application
+import com.bharatalk.app.R
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump

@@ -1,4 +1,4 @@
-package com.bharatalk.app.base
+package com.bharatalk.app.main.base
 
 import android.content.Context
 import android.os.Build

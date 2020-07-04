@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">IndiaTok</string>
+    <string name="app_name">Bharatalk</string>
     <string name="made_for_india_n_from_indians">Made for India\nFrom Indians</string>
     <string name="dummy_user_name">anubhavnirwal</string>
+    <string name="upload_talk">UPLOAD TALK</string>
+    <string name="set_youtube_video_id_here">enter youtube url</string>
+    <string name="type_user_name_here">type user name - no spaces, capital</string>
+    <string name="type_song_name">type song name</string>
+    <string name="type_share_count">type share count</string>
+    <string name="type_like_count">type like count</string>
+    <string name="type_space_separated_hashtags">type space-separated hashtags</string>
+    <string name="type_comments_count">type comments count</string>
 </resources>

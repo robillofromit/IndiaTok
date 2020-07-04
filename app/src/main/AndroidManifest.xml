@@ -10,18 +10,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".main.Bharatalk">
         <activity
-            android:name="com.bharatalk.app.toks.ToksActivity"
+            android:name="com.bharatalk.app.main.toks.ToksActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
-            android:name="com.bharatalk.app.loading.LoadingActivity"
+            android:name="com.bharatalk.app.dashboard.view.dashboard.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.bharatalk.app.main.loading.LoadingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 
