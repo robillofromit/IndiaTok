@@ -14,7 +14,13 @@
         android:name=".main.view.Bharatalk">
         <activity
             android:name="com.bharatalk.app.main.view.toks.ToksActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.bharatalk.app.dashboard.view.dashboard.DashboardActivity"
@@ -24,16 +30,6 @@
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
-        </activity>
-
-        <activity
-            android:name="com.bharatalk.app.main.view.loading.LoadingActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

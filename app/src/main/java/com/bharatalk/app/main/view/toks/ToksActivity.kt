@@ -1,31 +1,23 @@
 package com.bharatalk.app.main.view.toks
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bharatalk.app.R
-import com.bharatalk.app.dashboard.storage.backend.model.TalksList
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.storage.repository.FirestoreRepository
 import com.bharatalk.app.main.view.base.BaseActivity
 import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
 import com.bharatalk.app.main.view.toks.adapter.ToksHolder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_toks.*
 
-class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
+class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var toksList: List<Talk>
     private lateinit var toksAdapter: ToksAdapter
-
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ToksActivity::class.java)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,20 +51,31 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
         })
 
         getToksList()
+
+        setSwipeRefreshListener()
+    }
+
+    private fun setSwipeRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun getToksList(): List<Talk> {
         FirestoreRepository().getToks().addOnSuccessListener {
-            Log.e("mytag","toks list fetched ${it.size()}")
+            swipeRefreshLayout.isRefreshing = false
             it?.let {
-                val toksList = it.toObjects(Talk::class.java)
-                renderForToksReceived(toksList)
-                Log.e("mytag","talks list is ${toksList.size} ${toksList[0].video_id}")
+                if(it.isEmpty) {
+                    showErrorRetrySnackBar()
+                }
+                else {
+                    val toksList = it.toObjects(Talk::class.java)
+                    renderForToksReceived(toksList)
+                }
             } ?: run {
-                Log.e("mytag","no documents in successful result")
+                showErrorRetrySnackBar()
             }
         }.addOnFailureListener {
-            Log.e("mytag","toks fetch failed ${it.printStackTrace()}")
+            swipeRefreshLayout.isRefreshing = false
+            showErrorRetrySnackBar()
         }
         return ArrayList()
     }
@@ -85,5 +88,18 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
         if(toksList.size > tokPosition + 2) {
             recyclerView.smoothScrollToPosition(tokPosition + 1)
         }
+    }
+
+    private fun showErrorRetrySnackBar() {
+        val snackBar = Snackbar.make(
+            parentView, getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE
+        ).setAction(getString(R.string.retry)) {
+            getToksList()
+        }
+        snackBar.show()
+    }
+
+    override fun onRefresh() {
+        getToksList()
     }
 }
