@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
+import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
+import com.bharatalk.app.main.util.NumberUtil
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -60,6 +62,13 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         itemView.soundTrackNameTv.text = talk.song_name
 
         itemView.userTagsTv.text = getTagsString(talk.hashtags)
+
+        itemView.shareTv.text =
+        String.format(itemView.context.getString(R.string.likes), NumberUtil.format(talk.share_count))
+        itemView.likeTv.text =
+            String.format(itemView.context.getString(R.string.likes), NumberUtil.format(talk.line_count))
+        itemView.commentTv.text =
+            String.format(itemView.context.getString(R.string.comments), NumberUtil.format(talk.comments.comment_count))
 
         itemView.soundTrackNameTv.isSelected = true
         this.tokPosition = tokPosition

@@ -10,4 +10,7 @@
     <string name="type_like_count">type like count</string>
     <string name="type_space_separated_hashtags">type space-separated hashtags</string>
     <string name="type_comments_count">type comments count</string>
+    <string name="share">%s Share</string>
+    <string name="comments">%s Comments</string>
+    <string name="likes">%s Likes</string>
 </resources>
