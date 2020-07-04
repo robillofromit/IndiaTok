@@ -75,6 +75,30 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         currentVideoId = talk.video_id
         if(!::youtubePlayer.isInitialized) return
         youtubePlayer.cueVideo(talk.video_id, 0f)
+
+        itemView.likeHolder.setOnClickListener {
+            Log.e("mytag", "click")
+            if(::tokListener.isInitialized) {
+                Log.e("mytag", "click action")
+                tokListener.onLikeShareCommentClicked()
+            }
+        }
+
+        itemView.shareHolder.setOnClickListener {
+            Log.e("mytag", "click")
+            if(::tokListener.isInitialized) {
+                Log.e("mytag", "click action")
+                tokListener.onLikeShareCommentClicked()
+            }
+        }
+
+        itemView.commentHolder.setOnClickListener {
+            Log.e("mytag", "click")
+            if(::tokListener.isInitialized) {
+                Log.e("mytag", "click action")
+                tokListener.onLikeShareCommentClicked()
+            }
+        }
     }
 
     private fun getTagsString(hashTags: List<String>): String {
@@ -96,5 +120,6 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     interface TokListener {
         fun onTokEnded(tokPosition: Int)
+        fun onLikeShareCommentClicked()
     }
 }

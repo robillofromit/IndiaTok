@@ -49,6 +49,11 @@ class ToksAdapter(
             tokListener.onTokEnded(tokPosition)
     }
 
+    override fun onLikeShareCommentClicked() {
+        if(::tokListener.isInitialized)
+            tokListener.onLikeShareCommentClicked()
+    }
+
     fun setTokListener(tokListener: TokListener) {
         this.tokListener = tokListener
     }
@@ -60,5 +65,6 @@ class ToksAdapter(
 
     interface TokListener {
         fun onTokEnded(tokPosition: Int)
+        fun onLikeShareCommentClicked()
     }
 }

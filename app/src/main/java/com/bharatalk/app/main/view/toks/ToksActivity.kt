@@ -1,6 +1,7 @@
 package com.bharatalk.app.main.view.toks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -10,6 +11,7 @@ import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.storage.repository.FirestoreRepository
 import com.bharatalk.app.main.view.base.BaseActivity
+import com.bharatalk.app.main.view.coming_soon.ComingSoonBottomSheet
 import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
 import com.bharatalk.app.main.view.toks.adapter.ToksHolder
 import com.google.android.material.snackbar.Snackbar
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_toks.*
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private lateinit var comingSoonSheet: ComingSoonBottomSheet
     private lateinit var toksList: List<Talk>
     private lateinit var toksAdapter: ToksAdapter
 
@@ -68,7 +71,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
                     showErrorRetrySnackBar()
                 }
                 else {
-                    val toksList = it.toObjects(Talk::class.java)
+                    toksList = it.toObjects(Talk::class.java)
                     renderForToksReceived(toksList)
                 }
             } ?: run {
@@ -86,6 +89,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     }
 
     override fun onTokEnded(tokPosition: Int) {
+        Log.e("mytag", "tok end $tokPosition")
         if(toksList.size > tokPosition + 2) {
             recyclerView.smoothScrollToPosition(tokPosition + 1)
         }
@@ -105,5 +109,14 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
     override fun onRefresh() {
         getToksList()
+    }
+
+    override fun onLikeShareCommentClicked() {
+
+        if(!::comingSoonSheet.isInitialized)
+            comingSoonSheet = ComingSoonBottomSheet.newInstance()
+
+        if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
+            comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
     }
 }
