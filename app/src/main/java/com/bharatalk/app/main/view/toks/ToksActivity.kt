@@ -1,6 +1,7 @@
 package com.bharatalk.app.main.view.toks
 
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -91,9 +92,12 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     }
 
     private fun showErrorRetrySnackBar() {
+        errorHolder.visibility = View.VISIBLE
+
         val snackBar = Snackbar.make(
             parentView, getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE
         ).setAction(getString(R.string.retry)) {
+            errorHolder.visibility = View.GONE
             getToksList()
         }
         snackBar.show()
