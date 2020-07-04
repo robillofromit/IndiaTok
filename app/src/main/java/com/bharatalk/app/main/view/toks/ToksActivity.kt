@@ -16,11 +16,13 @@ import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
 import com.bharatalk.app.main.view.toks.adapter.ToksHolder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_toks.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var comingSoonSheet: ComingSoonBottomSheet
-    private lateinit var toksList: List<Talk>
+    private lateinit var toksList: MutableList<Talk>
     private lateinit var toksAdapter: ToksAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +74,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
                 }
                 else {
                     toksList = it.toObjects(Talk::class.java)
+                    toksList.shuffle()
                     renderForToksReceived(toksList)
                 }
             } ?: run {
@@ -89,7 +92,6 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     }
 
     override fun onTokEnded(tokPosition: Int) {
-        Log.e("mytag", "tok end $tokPosition")
         if(toksList.size > tokPosition + 2) {
             recyclerView.smoothScrollToPosition(tokPosition + 1)
         }
