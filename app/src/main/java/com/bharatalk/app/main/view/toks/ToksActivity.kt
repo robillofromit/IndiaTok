@@ -1,4 +1,4 @@
-package com.bharatalk.app.main.toks
+package com.bharatalk.app.main.view.toks
 
 import android.content.Context
 import android.content.Intent
@@ -8,14 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bharatalk.app.R
-import com.bharatalk.app.main.base.BaseActivity
-import com.bharatalk.app.main.toks.adapter.ToksAdapter
-import com.bharatalk.app.main.toks.adapter.ToksHolder
+import com.bharatalk.app.dashboard.storage.backend.model.TalksList
+import com.bharatalk.app.main.storage.model.Talk
+import com.bharatalk.app.main.storage.repository.FirestoreRepository
+import com.bharatalk.app.main.view.base.BaseActivity
+import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
+import com.bharatalk.app.main.view.toks.adapter.ToksHolder
 import kotlinx.android.synthetic.main.activity_toks.*
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
 
-    private lateinit var toksList: List<String>
+    private lateinit var toksList: List<Talk>
+    private lateinit var toksAdapter: ToksAdapter
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -33,8 +37,8 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
     override fun setup() {
         setStatusBarColor(R.color.black)
 
-        toksList = getToksList()
-        val toksAdapter = ToksAdapter(toksList, lifecycle)
+        toksList = ArrayList()
+        toksAdapter = ToksAdapter(toksList, lifecycle)
         toksAdapter.setTokListener(this)
         recyclerView.adapter = toksAdapter
         PagerSnapHelper().attachToRecyclerView(recyclerView)
@@ -47,26 +51,34 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener {
                 val visiblePosition: Int = layoutManager.findFirstCompletelyVisibleItemPosition()
                 if (visiblePosition > -1) {
                     layoutManager.findViewByPosition(visiblePosition)?.let {
-                        Log.e("mytag", "position is $visiblePosition")
                         val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ToksHolder
                         holder.playVideo()
                     }
                 }
             }
         })
+
+        getToksList()
     }
 
-    private fun getToksList(): List<String> {
-        val toksList: MutableList<String> = ArrayList()
-        toksList.add("KRntP-q_R9s")
-        toksList.add("bdPZ2Cu1vNU")
-        toksList.add("nVzA1uWTydQ")
-        toksList.add("pz95u3UVpaM")
-        toksList.add("ZYP1UJylTAU")
-        toksList.add("Ah0Ys50CqO8")
-        toksList.add("HSCymCubvhk")
-        toksList.add("nyRawESIuy4")
-        return toksList
+    private fun getToksList(): List<Talk> {
+        FirestoreRepository().getToks().addOnSuccessListener {
+            Log.e("mytag","toks list fetched ${it.size()}")
+            it?.let {
+                val toksList = it.toObjects(Talk::class.java)
+                renderForToksReceived(toksList)
+                Log.e("mytag","talks list is ${toksList.size} ${toksList[0].video_id}")
+            } ?: run {
+                Log.e("mytag","no documents in successful result")
+            }
+        }.addOnFailureListener {
+            Log.e("mytag","toks fetch failed ${it.printStackTrace()}")
+        }
+        return ArrayList()
+    }
+
+    private fun renderForToksReceived(toksList: List<Talk>) {
+        toksAdapter.setToks(toksList)
     }
 
     override fun onTokEnded(tokPosition: Int) {

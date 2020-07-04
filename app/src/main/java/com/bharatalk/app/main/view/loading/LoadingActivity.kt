@@ -1,10 +1,10 @@
-package com.bharatalk.app.main.loading
+package com.bharatalk.app.main.view.loading
 
 import android.os.Bundle
 import android.os.Handler
 import com.bharatalk.app.R
-import com.bharatalk.app.main.base.BaseActivity
-import com.bharatalk.app.main.toks.ToksActivity
+import com.bharatalk.app.main.view.base.BaseActivity
+import com.bharatalk.app.main.view.toks.ToksActivity
 import java.lang.Exception
 
 class LoadingActivity : BaseActivity() {

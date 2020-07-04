@@ -1,4 +1,4 @@
-package com.bharatalk.app.main.toks.adapter
+package com.bharatalk.app.main.view.toks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,10 +6,11 @@ import androidx.core.view.children
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.bharatalk.app.R
+import com.bharatalk.app.main.storage.model.Talk
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class ToksAdapter(
-    private val tokList: List<String>, private val lifecycle: Lifecycle
+    private var tokList: List<Talk>, private val lifecycle: Lifecycle
 ): RecyclerView.Adapter<ToksHolder>(), ToksHolder.TokListener {
 
     private lateinit var tokListener: TokListener
@@ -50,6 +51,11 @@ class ToksAdapter(
 
     fun setTokListener(tokListener: TokListener) {
         this.tokListener = tokListener
+    }
+
+    fun setToks(toksList: List<Talk>) {
+        this.tokList = toksList
+        notifyDataSetChanged()
     }
 
     interface TokListener {

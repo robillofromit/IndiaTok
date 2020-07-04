@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".main.Bharatalk">
+        android:name=".main.view.Bharatalk">
         <activity
-            android:name="com.bharatalk.app.main.toks.ToksActivity"
+            android:name="com.bharatalk.app.main.view.toks.ToksActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.bharatalk.app.main.loading.LoadingActivity"
+            android:name="com.bharatalk.app.main.view.loading.LoadingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

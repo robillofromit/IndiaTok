@@ -38,9 +38,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
-            android:text="IndiaTok"
+            android:text="@string/app_name"
             android:id="@+id/appNameHeaderTv"
-            tools:ignore="HardcodedText,MissingPrefix" />
+            tools:ignore="MissingPrefix" />
 
         <ImageView
             android:layout_width="1dp"

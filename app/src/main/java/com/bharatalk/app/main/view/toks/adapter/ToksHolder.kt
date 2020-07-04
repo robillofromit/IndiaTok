@@ -1,15 +1,18 @@
-package com.bharatalk.app.main.toks.adapter
+package com.bharatalk.app.main.view.toks.adapter
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
+import com.bharatalk.app.main.storage.model.Talk
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.android.synthetic.main.cell_tok.view.*
-
+import java.lang.StringBuilder
 
 class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -51,12 +54,26 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         })
     }
 
-    fun cueVideo(videoId: String, tokPosition: Int) {
+    @SuppressLint("SetTextI18n")
+    fun cueVideo(talk: Talk, tokPosition: Int) {
+        itemView.userNameTv.text = "@${talk.user_name}"
+        itemView.soundTrackNameTv.text = talk.song_name
+
+        itemView.userTagsTv.text = getTagsString(talk.hashtags)
+
         itemView.soundTrackNameTv.isSelected = true
         this.tokPosition = tokPosition
-        currentVideoId = videoId
+        currentVideoId = talk.video_id
         if(!::youtubePlayer.isInitialized) return
-        youtubePlayer.cueVideo(videoId, 0f)
+        youtubePlayer.cueVideo(talk.video_id, 0f)
+    }
+
+    private fun getTagsString(hashTags: List<String>): String {
+        val builder = StringBuilder()
+        for(tag in hashTags) {
+            builder.append("#${tag} ")
+        }
+        return builder.toString()
     }
 
     fun playVideo() {

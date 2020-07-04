@@ -1,4 +1,4 @@
-package com.bharatalk.app.main
+package com.bharatalk.app.main.view
 
 import android.app.Application
 import com.bharatalk.app.R
