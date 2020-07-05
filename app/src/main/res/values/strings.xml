@@ -17,4 +17,7 @@
     <string name="retry">RETRY</string>
     <string name="dismiss">DISMISS</string>
     <string name="coming_soon">We are actively working on this app to make it more and more useful for you. Thank you for being patient and being a part of our life!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -12,20 +12,22 @@ import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.storage.repository.FirestoreRepository
 import com.bharatalk.app.main.view.base.BaseActivity
-import com.bharatalk.app.main.view.coming_soon.ComingSoonBottomSheet
+import com.bharatalk.app.main.view.swipe_up.SwipeUpFragment
 import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
 import com.bharatalk.app.main.view.toks.adapter.ToksHolder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_toks.*
-import java.util.*
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var comingSoonSheet: ComingSoonBottomSheet
     private lateinit var toksList: MutableList<Talk>
     private lateinit var toksAdapter: ToksAdapter
     private var lastVisiblePosition: Int = -1
+    private var swipeUpMessageCount = 3
+    private lateinit var swipeUpFragment: SwipeUpFragment
+    private val swipeUpFragmentTag = "swipe_up"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,9 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
                 super.onScrolled(recyclerView, dx, dy)
                 val visiblePosition: Int = layoutManager.findFirstCompletelyVisibleItemPosition()
                 if (visiblePosition > -1) {
+                    Log.e("mytag", "position $swipeUpMessageCount")
+                    swipeUpMessageCount-=1
+                    hideSwipeUpFragment()
                     lastVisiblePosition = visiblePosition
                     layoutManager.findViewByPosition(visiblePosition)?.let {
                         val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ToksHolder
@@ -63,6 +68,37 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
         getToksList()
 
         setSwipeRefreshListener()
+
+        if(swipeUpMessageCount > 0) {
+            if(!::swipeUpFragment.isInitialized)
+                swipeUpFragment = SwipeUpFragment.newInstance()
+
+            showSwipeUpFragment()
+        }
+    }
+
+    private fun showSwipeUpFragment() {
+        if(swipeUpFragment.isAdded || swipeUpFragment.isVisible) return
+
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.parentView, swipeUpFragment, swipeUpFragmentTag)
+            .commit()
+    }
+
+    private fun hideSwipeUpFragment() {
+        if(swipeUpMessageCount > 0) return
+
+        Log.e("mytag", "hide")
+        try {
+            Log.e("mytag", "hiding")
+            supportFragmentManager.findFragmentByTag(swipeUpFragmentTag)?.let {
+                supportFragmentManager.beginTransaction().remove(it).commit()
+            }
+        }
+        catch (ignored: Exception) {
+            Log.e("mytag", "not hiding")
+        }
     }
 
     private fun setSwipeRefreshListener() {
@@ -128,10 +164,10 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
     override fun onLikeShareCommentClicked() {
 
-        if(!::comingSoonSheet.isInitialized)
-            comingSoonSheet = ComingSoonBottomSheet.newInstance()
-
-        if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
-            comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
+//        if(!::comingSoonSheet.isInitialized)
+//            comingSoonSheet = ComingSoonBottomSheet.newInstance()
+//
+//        if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
+//            comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
     }
 }
