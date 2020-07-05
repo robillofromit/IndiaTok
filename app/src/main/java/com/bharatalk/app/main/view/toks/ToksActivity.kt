@@ -1,6 +1,7 @@
 package com.bharatalk.app.main.view.toks
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     private lateinit var comingSoonSheet: ComingSoonBottomSheet
     private lateinit var toksList: MutableList<Talk>
     private lateinit var toksAdapter: ToksAdapter
+    private var lastVisiblePosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +50,11 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
                 super.onScrolled(recyclerView, dx, dy)
                 val visiblePosition: Int = layoutManager.findFirstCompletelyVisibleItemPosition()
                 if (visiblePosition > -1) {
+                    lastVisiblePosition = visiblePosition
                     layoutManager.findViewByPosition(visiblePosition)?.let {
                         val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ToksHolder
                         holder.playVideo()
+                        doPlayCheckInSeconds()
                     }
                 }
             }
@@ -89,6 +93,15 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
     private fun renderForToksReceived(toksList: List<Talk>) {
         toksAdapter.setToks(toksList)
+    }
+
+    private fun doPlayCheckInSeconds() {
+        Handler().postDelayed({
+            recyclerView.layoutManager?.findViewByPosition(lastVisiblePosition)?.let {
+                val holder = recyclerView.findViewHolderForAdapterPosition(lastVisiblePosition) as ToksHolder
+                holder.playVideo()
+            }
+        }, 3000)
     }
 
     override fun onTokEnded(tokPosition: Int) {
