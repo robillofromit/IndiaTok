@@ -16,8 +16,10 @@
     <string name="no_internet">No internet connection. Please retry.</string>
     <string name="retry">RETRY</string>
     <string name="dismiss">DISMISS</string>
-    <string name="coming_soon">We are actively working on this app to make it more and more useful for you. Thank you for being patient and being a part of our life!</string>
+    <string name="coming_soon">Hum Bharat ko Atmanirbhar banane ki koshish kar rahe hai!\n\nAapse binati hai ki aap humari app share karei apne dosto aur parivar mein, aur humari app ko 5 star rating dein. Aapka boht boht dhanyavad.\n\nJai Hind!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rate_us_5_stars">Rate us 5 ⭐️</string>
+    <string name="share_app">Share App ♥️</string>
 </resources>

@@ -1,15 +1,20 @@
 package com.bharatalk.app.main.view.coming_soon
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.bharatalk.app.BuildConfig
 import com.bharatalk.app.R
 import com.bharatalk.app.main.view.base.RoundedBottomSheetDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.coming_soon_sheet.*
+
 
 class ComingSoonBottomSheet: RoundedBottomSheetDialogFragment() {
 
@@ -37,8 +42,34 @@ class ComingSoonBottomSheet: RoundedBottomSheetDialogFragment() {
     }
 
     private fun setClickListeners() {
-        dismissButton.setOnClickListener {
-            dismiss()
+        rateUsButton.setOnClickListener {
+            val uri: Uri = Uri.parse("market://details?id=" + context!!.packageName)
+            val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+            goToMarket.addFlags(
+                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+            )
+            try {
+                startActivity(goToMarket)
+            } catch (e: ActivityNotFoundException) {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + context!!.packageName)
+                    )
+                )
+            }
+        }
+        shareAppButton.setOnClickListener {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Hey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+            )
+            sendIntent.type = "text/plain"
+            startActivity(sendIntent)
         }
     }
 
