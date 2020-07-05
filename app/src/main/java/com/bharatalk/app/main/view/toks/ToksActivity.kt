@@ -12,6 +12,7 @@ import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.storage.repository.FirestoreRepository
 import com.bharatalk.app.main.view.base.BaseActivity
+import com.bharatalk.app.main.view.coming_soon.ComingSoonBottomSheet
 import com.bharatalk.app.main.view.swipe_up.SwipeUpFragment
 import com.bharatalk.app.main.view.toks.adapter.ToksAdapter
 import com.bharatalk.app.main.view.toks.adapter.ToksHolder
@@ -28,6 +29,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     private var swipeUpMessageCount = 3
     private lateinit var swipeUpFragment: SwipeUpFragment
     private val swipeUpFragmentTag = "swipe_up"
+    private lateinit var comingSoonSheet: ComingSoonBottomSheet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,10 +166,10 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
     override fun onLikeShareCommentClicked() {
 
-//        if(!::comingSoonSheet.isInitialized)
-//            comingSoonSheet = ComingSoonBottomSheet.newInstance()
-//
-//        if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
-//            comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
+        if(!::comingSoonSheet.isInitialized)
+            comingSoonSheet = ComingSoonBottomSheet.newInstance()
+
+        if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
+            comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
     }
 }
