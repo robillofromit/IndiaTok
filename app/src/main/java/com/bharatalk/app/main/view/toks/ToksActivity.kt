@@ -1,9 +1,10 @@
 package com.bharatalk.app.main.view.toks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.storage.repository.FirestoreRepository
+import com.bharatalk.app.main.util.PreferenceUtil
+import com.bharatalk.app.main.util.PreferenceUtil.Companion.DAY_OF_YEAR
+import com.bharatalk.app.main.util.PreferenceUtil.Companion.SHOULD_SHOW_COMING_SOON_SHEET_TODAY
 import com.bharatalk.app.main.view.base.BaseActivity
 import com.bharatalk.app.main.view.coming_soon.ComingSoonBottomSheet
 import com.bharatalk.app.main.view.swipe_up.SwipeUpFragment
@@ -19,6 +23,7 @@ import com.bharatalk.app.main.view.toks.adapter.ToksHolder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_toks.*
 import java.lang.Exception
+import java.util.*
 import kotlin.collections.ArrayList
 
 class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout.OnRefreshListener {
@@ -30,6 +35,7 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     private lateinit var swipeUpFragment: SwipeUpFragment
     private val swipeUpFragmentTag = "swipe_up"
     private lateinit var comingSoonSheet: ComingSoonBottomSheet
+    private lateinit var preferences: PreferenceUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +60,13 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
                 super.onScrolled(recyclerView, dx, dy)
                 val visiblePosition: Int = layoutManager.findFirstCompletelyVisibleItemPosition()
                 if (visiblePosition > -1) {
-                    Log.e("mytag", "position $swipeUpMessageCount")
-                    swipeUpMessageCount-=1
+                    swipeUpMessageCount -= 1
                     hideSwipeUpFragment()
+                    toksAdapter.setActivePosition(visiblePosition)
                     lastVisiblePosition = visiblePosition
                     layoutManager.findViewByPosition(visiblePosition)?.let {
                         val holder = recyclerView.findViewHolderForAdapterPosition(visiblePosition) as ToksHolder
                         holder.playVideo()
-                        doPlayCheckInSeconds()
                     }
                 }
             }
@@ -77,6 +82,25 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
             showSwipeUpFragment()
         }
+
+        initPreferences()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun initPreferences() {
+        preferences = PreferenceUtil(PreferenceManager(this).sharedPreferences)
+
+        setShouldShowComingSoonSheetAutomatically()
+    }
+
+    private fun setShouldShowComingSoonSheetAutomatically() {
+        val dayOfYearPreferences = preferences.getInt(DAY_OF_YEAR)
+        val dayOfYearCalendar = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+
+        if(dayOfYearCalendar != dayOfYearPreferences && !preferences.getBoolean(SHOULD_SHOW_COMING_SOON_SHEET_TODAY, true)) {
+            preferences.putInt(DAY_OF_YEAR, dayOfYearCalendar)
+            preferences.putBoolean(SHOULD_SHOW_COMING_SOON_SHEET_TODAY, true)
+        }
     }
 
     private fun showSwipeUpFragment() {
@@ -91,16 +115,12 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     private fun hideSwipeUpFragment() {
         if(swipeUpMessageCount > 0) return
 
-        Log.e("mytag", "hide")
         try {
-            Log.e("mytag", "hiding")
             supportFragmentManager.findFragmentByTag(swipeUpFragmentTag)?.let {
                 supportFragmentManager.beginTransaction().remove(it).commit()
             }
         }
-        catch (ignored: Exception) {
-            Log.e("mytag", "not hiding")
-        }
+        catch (ignored: Exception) {}
     }
 
     private fun setSwipeRefreshListener() {
@@ -133,16 +153,6 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
         toksAdapter.setToks(toksList)
     }
 
-    private fun doPlayCheckInSeconds() {
-        Handler().postDelayed({
-            recyclerView.layoutManager?.findViewByPosition(lastVisiblePosition)?.let {
-                toksAdapter.setActivePosition(lastVisiblePosition)
-                val holder = recyclerView.findViewHolderForAdapterPosition(lastVisiblePosition) as ToksHolder
-                holder.playVideo()
-            }
-        }, 2000)
-    }
-
     override fun onTokEnded(tokPosition: Int) {
         if(toksList.size > tokPosition + 2) {
             recyclerView.smoothScrollToPosition(tokPosition + 1)
@@ -172,5 +182,12 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
 
         if(!comingSoonSheet.isAdded && !comingSoonSheet.isVisible)
             comingSoonSheet.show(supportFragmentManager, comingSoonSheet.tag)
+    }
+
+    override fun showComingSoonSheet() {
+        if(preferences.getBoolean(SHOULD_SHOW_COMING_SOON_SHEET_TODAY)) {
+            preferences.putBoolean(SHOULD_SHOW_COMING_SOON_SHEET_TODAY, false)
+            onLikeShareCommentClicked()
+        }
     }
 }

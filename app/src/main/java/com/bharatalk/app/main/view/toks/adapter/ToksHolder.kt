@@ -51,7 +51,6 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 super.onStateChange(youTubePlayer, state)
 
                 if(state == PlayerConstants.PlayerState.VIDEO_CUED) {
-                    Log.e("mytag", "$tokPosition $isFirstTokShown $isSecondTokShown")
                     if(tokPosition == 0 && !isFirstTokShown && activePosition == tokPosition) {
                         isFirstTokShown = true
                         youTubePlayer.play()
@@ -68,9 +67,6 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 }
                 if(state != PlayerConstants.PlayerState.PLAYING)
                     itemView.soundTrackNameTv.isSelected = false
-
-                if(state == PlayerConstants.PlayerState.PLAYING)
-                    Log.e("mytag", "playing")
             }
         })
     }
@@ -96,25 +92,19 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         youtubePlayer.cueVideo(talk.video_id, 0f)
 
         itemView.likeHolder.setOnClickListener {
-            Log.e("mytag", "click")
             if(::tokListener.isInitialized) {
-                Log.e("mytag", "click action")
                 tokListener.onLikeShareCommentClicked()
             }
         }
 
         itemView.shareHolder.setOnClickListener {
-            Log.e("mytag", "click")
             if(::tokListener.isInitialized) {
-                Log.e("mytag", "click action")
                 tokListener.onLikeShareCommentClicked()
             }
         }
 
         itemView.commentHolder.setOnClickListener {
-            Log.e("mytag", "click")
             if(::tokListener.isInitialized) {
-                Log.e("mytag", "click action")
                 tokListener.onLikeShareCommentClicked()
             }
         }

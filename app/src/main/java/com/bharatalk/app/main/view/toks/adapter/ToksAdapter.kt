@@ -13,8 +13,10 @@ class ToksAdapter(
     private var tokList: List<Talk>, private val lifecycle: Lifecycle
 ): RecyclerView.Adapter<ToksHolder>(), ToksHolder.TokListener {
 
+    private var rateAppSheetShowCounter = 10
+
     companion object{
-        var activePosition: Int = -1
+        var activePosition: Int = 0
     }
 
     private lateinit var tokListener: TokListener
@@ -68,11 +70,18 @@ class ToksAdapter(
     }
 
     fun setActivePosition(lastVisiblePosition: Int) {
+        rateAppSheetShowCounter -= 1
+        if(rateAppSheetShowCounter == 0) {
+            if(::tokListener.isInitialized)
+                tokListener.showComingSoonSheet()
+        }
+
         activePosition = lastVisiblePosition
     }
 
     interface TokListener {
         fun onTokEnded(tokPosition: Int)
         fun onLikeShareCommentClicked()
+        fun showComingSoonSheet()
     }
 }
