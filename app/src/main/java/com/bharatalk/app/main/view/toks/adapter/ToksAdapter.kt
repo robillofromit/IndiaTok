@@ -13,6 +13,10 @@ class ToksAdapter(
     private var tokList: List<Talk>, private val lifecycle: Lifecycle
 ): RecyclerView.Adapter<ToksHolder>(), ToksHolder.TokListener {
 
+    companion object{
+        var activePosition: Int = -1
+    }
+
     private lateinit var tokListener: TokListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToksHolder {
@@ -61,6 +65,10 @@ class ToksAdapter(
     fun setToks(toksList: List<Talk>) {
         this.tokList = toksList
         notifyDataSetChanged()
+    }
+
+    fun setActivePosition(lastVisiblePosition: Int) {
+        activePosition = lastVisiblePosition
     }
 
     interface TokListener {

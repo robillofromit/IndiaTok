@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".main.view.Bharatalk">
+        android:name=".Bharatalk">
         <activity
             android:name="com.bharatalk.app.main.view.toks.ToksActivity"
             android:theme="@style/AppTheme.NoActionBar">

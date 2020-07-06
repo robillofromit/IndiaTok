@@ -136,10 +136,11 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
     private fun doPlayCheckInSeconds() {
         Handler().postDelayed({
             recyclerView.layoutManager?.findViewByPosition(lastVisiblePosition)?.let {
+                toksAdapter.setActivePosition(lastVisiblePosition)
                 val holder = recyclerView.findViewHolderForAdapterPosition(lastVisiblePosition) as ToksHolder
                 holder.playVideo()
             }
-        }, 3000)
+        }, 2000)
     }
 
     override fun onTokEnded(tokPosition: Int) {

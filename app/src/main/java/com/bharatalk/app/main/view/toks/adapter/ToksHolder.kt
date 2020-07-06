@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
+import com.bharatalk.app.Bharatalk.Companion.isFirstTokShown
+import com.bharatalk.app.Bharatalk.Companion.isSecondTokShown
 import com.bharatalk.app.R
 import com.bharatalk.app.main.storage.model.Talk
 import com.bharatalk.app.main.util.NumberUtil
+import com.bharatalk.app.main.view.toks.adapter.ToksAdapter.Companion.activePosition
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -18,7 +21,7 @@ import java.lang.StringBuilder
 
 class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    private var tokPosition: Int = 0
+    private var tokPosition: Int = -1
     private lateinit var currentVideoId: String
     private lateinit var youtubePlayer: YouTubePlayer
 
@@ -46,12 +49,28 @@ class ToksHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 state: PlayerConstants.PlayerState
             ) {
                 super.onStateChange(youTubePlayer, state)
+
+                if(state == PlayerConstants.PlayerState.VIDEO_CUED) {
+                    Log.e("mytag", "$tokPosition $isFirstTokShown $isSecondTokShown")
+                    if(tokPosition == 0 && !isFirstTokShown && activePosition == tokPosition) {
+                        isFirstTokShown = true
+                        youTubePlayer.play()
+                    }
+                    else if(tokPosition == 1 && !isSecondTokShown && activePosition == tokPosition) {
+                        isSecondTokShown = true
+                        youTubePlayer.play()
+                    }
+                }
+
                 if(state == PlayerConstants.PlayerState.ENDED) {
                     if(::tokListener.isInitialized)
                         tokListener.onTokEnded(tokPosition)
                 }
                 if(state != PlayerConstants.PlayerState.PLAYING)
                     itemView.soundTrackNameTv.isSelected = false
+
+                if(state == PlayerConstants.PlayerState.PLAYING)
+                    Log.e("mytag", "playing")
             }
         })
     }
