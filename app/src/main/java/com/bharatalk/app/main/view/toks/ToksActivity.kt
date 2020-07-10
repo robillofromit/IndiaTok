@@ -84,6 +84,14 @@ class ToksActivity : BaseActivity(), ToksAdapter.TokListener, SwipeRefreshLayout
         }
 
         initPreferences()
+
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        addTokButton.setOnClickListener {
+            onLikeShareCommentClicked()
+        }
     }
 
     @SuppressLint("RestrictedApi")

@@ -73,13 +73,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg_bottom_bar_gradient"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintBottom_toBottomOf="@id/bottomBar"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/bottomBar"
-        android:background="@drawable/bg_bottom_bar_gradient">
+        android:id="@+id/userDetailsHolder">
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,7 +127,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/black"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:id="@+id/bottomBar">
 
         <com.airbnb.lottie.LottieAnimationView
@@ -288,12 +295,12 @@
         android:layout_marginEnd="10dp"
         android:scaleType="fitXY"
         tools:background="#BCBCBC"
-        android:layout_marginBottom="?attr/actionBarSize"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         app:lottie_fileName="player_disc.json"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/bottomBar"
         android:id="@+id/playerDiscLottie"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
